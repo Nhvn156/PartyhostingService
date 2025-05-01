@@ -10,6 +10,7 @@ import Decor from './pages/services/Decor';
 import Corporate from './pages/services/Corporate';
 import Wedding from './pages/services/Wedding';
 import Birthday from './pages/services/Birthday';
+import Test from './pages/services/Test';
 import Admin from './pages/Admin';
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
           <Route path="/service/birthday" element={<Birthday />} />
           <Route path="/service/corporate" element={<Corporate />} />
           <Route path="/service/decor" element={<Decor />} />
+          <Route path="/service/test" element={<Test />} />
           <Route path="/admin" element={isAdmin ? <Admin /> : <Navigate to="/" />}/>
         </Routes>
       </main>
