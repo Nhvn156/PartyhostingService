@@ -1,13 +1,44 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-function Navbar({ user, onLogout }) {
+function Navbar({ user: propUser, onLogout }) {
+  const [user, setUser] = useState(propUser || null);
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+
+  // Đồng bộ user từ localStorage mỗi lần propUser thay đổi
+  useEffect(() => {
+    const stored = localStorage.getItem('currentUser');
+    setUser(stored ? JSON.parse(stored) : null);
+  }, [propUser]);
+
+  const toggleNavbar = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('currentUser');
+    if (onLogout) onLogout();
+    setUser(null);
+    navigate('/');
+  };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4">
       <Link className="navbar-brand" to="/">PartyPlanner</Link>
-      <div className="collapse navbar-collapse">
+
+      <button
+        className="navbar-toggler"
+        type="button"
+        onClick={toggleNavbar}
+        aria-controls="navbarNav"
+        aria-expanded={isOpen}
+        aria-label="Toggle navigation"
+      >
+        <span className="navbar-toggler-icon"></span>
+      </button>
+
+      <div className={`collapse navbar-collapse ${isOpen ? 'show' : ''}`} id="navbarNav">
         <ul className="navbar-nav ms-auto">
           {!user ? (
             <>
@@ -24,7 +55,9 @@ function Navbar({ user, onLogout }) {
                 <Link className="nav-link" to="/dashboard">Dashboard</Link>
               </li>
               <li className="nav-item">
-                <button className="btn btn-outline-light ms-2" onClick={onLogout}>Đăng xuất</button>
+                <button className="btn btn-outline-light ms-2" onClick={handleLogout}>
+                  Đăng xuất
+                </button>
               </li>
             </>
           )}

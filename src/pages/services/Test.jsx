@@ -5,6 +5,7 @@ export default function BirthdayService() {
   const [nameInput, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
+  const [time, setTime] = useState('');
   const [request, setRequest] = useState('');
   const [options, setOptions] = useState({
     mc: false,
@@ -46,6 +47,7 @@ export default function BirthdayService() {
       name: nameInput,
       phone,
       email,
+      time,
       request: fullRequest,
       serviceType: 'Sinh nhật'
     };
@@ -135,6 +137,10 @@ export default function BirthdayService() {
               <div className="col-md-12 mb-3">
                 <label>Email</label>
                 <input type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} required />
+              </div>
+              <div className="col-md-6 mb-3">
+                <label>Thời gian tổ chức</label>
+                <input type="date" className="form-control" value={time} onChange={(e) => setTime(e.target.value)} required/>
               </div>
               <div className="col-md-12 mb-3">
                 <label>Nội dung cần tư vấn</label>

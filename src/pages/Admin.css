@@ -1,6 +1,14 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #ffffff;
+  min-height: 100vh;
+}
 .admin-dashboard {
     background-color: #f9f9f9;
     min-height: 100vh;
+    padding: 1rem;
   }
   
   .admin-dashboard table th,
@@ -16,4 +24,27 @@
     background-color: #f0f0f0;
     color: #333;
   }
-  
+
+
+/* Khi trên mobile, giảm font và tránh vỡ bảng */
+@media (max-width: 768px) {
+  .admin-dashboard table {
+    font-size: 0.85rem;
+  }
+
+  .admin-dashboard table td,
+  .admin-dashboard table th {
+    white-space: nowrap;
+    padding: 0.5rem;
+  }
+
+  .admin-dashboard .btn {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+}
+
+/* Cho bảng cuộn ngang nếu quá rộng */
+.table-responsive {
+  overflow-x: auto;
+}

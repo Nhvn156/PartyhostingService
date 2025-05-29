@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { registerUser, loginUser } = require('../controllers/authController');
-const Request = require('../models/Request'); // Import model
+const Request = require('../models/Request');
 
 // ---------------------- AUTH ----------------------
 router.post('/register', registerUser);
@@ -12,7 +12,33 @@ router.post('/requests', async (req, res) => {
   console.log('📥 Dữ liệu tư vấn nhận được:', req.body);
 
   try {
-    const newRequest = new Request(req.body);
+    const {
+      name,
+      phone,
+      email,
+      time,
+      request,
+      serviceType,
+      budget,
+    } = req.body;
+
+    // ✅ Kiểm tra & ép kiểu ngân sách
+    const parsedBudget = {
+      amount: parseFloat(budget?.amount || 0),
+      currency: budget?.currency || 'USD'
+    };
+
+    const newRequest = new Request({
+      name,
+      phone,
+      email,
+      time: time ? new Date(time) : null,
+      request,
+      serviceType,
+      budget: parsedBudget,
+    });
+
+
     await newRequest.save();
     console.log('✅ Lưu thành công');
     res.status(201).json({ success: true });
@@ -33,8 +59,7 @@ router.get('/requests', async (req, res) => {
   }
 });
 
-module.exports = router;
-
+// ---------------------- REQUEST - MARK AS COMPLETE ----------------------
 router.put('/requests/:id/complete', async (req, res) => {
   try {
     const updated = await Request.findByIdAndUpdate(
@@ -48,3 +73,5 @@ router.put('/requests/:id/complete', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
+module.exports = router;
